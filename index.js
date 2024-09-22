@@ -10,10 +10,11 @@ dotenv.config({
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173",
-  methods: ["GET", "POST"],
-  credentials: true,
-}));
+    origin: '*', // Allow all origins (for testing purposes only)
+    methods: ["GET", "POST"],
+    credentials: true,
+  }));
+  
 app.use(express.json());
 
 app.use("/postData", postData);
