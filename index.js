@@ -10,7 +10,7 @@ dotenv.config({
 const app = express();
 
 app.use(cors({
-    origin: '*', // Allow all origins (for testing purposes only)
+  origin: ['https://script.google.com'],
     methods: ["GET", "POST"],
     credentials: true,
   }));
