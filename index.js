@@ -10,10 +10,18 @@ dotenv.config({
 const app = express();
 
 app.use(cors({
-  origin: ['https://script.google.com'],
-    methods: ["GET", "POST"],
-    credentials: true,
-  }));
+  origin: function (origin, callback) {
+    const allowedOrigins = ['https://script.google.com', `http://localhost:${process.env.PORT}`]; // Add your allowed origins
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST"],
+  credentials: true,
+}));
+
   
 app.use(express.json());
 
