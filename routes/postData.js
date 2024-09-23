@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { collection,addDoc } from "firebase/firestore";
+
 import { database } from "../fireBase/database.js";
 import { set,ref } from "firebase/database";
 const router = Router();
