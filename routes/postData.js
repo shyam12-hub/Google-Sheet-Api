@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { database } from "../fireBase/database.js";
-import { set, ref } from "firebase/database";
+import { collection, addDoc } from "firebase/firestore"; 
 
 const router = Router();
 
@@ -13,8 +13,13 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ message: 'Invalid data format. Expecting { data: { message: "..." } }' });
         }
 
-        // Save data to Firebase
-        await set(ref(database, "sheet-data"), { data });
+        // creating collection refercence
+        const collectionRef = collection(database,"sheet-data");
+        // checking sheet-data is present or not
+
+ 
+
+        await addDoc(collectionRef,data)
 
         return res.status(201).json({ message: "Sheet data sent to database", data });
     } catch (e) {

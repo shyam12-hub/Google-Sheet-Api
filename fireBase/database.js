@@ -1,4 +1,4 @@
 import { firebaseApp } from "./config.js";
-import { getDatabase } from "firebase/database";
+import { getFirestore  } from "firebase/firestore";
 
-export const database = getDatabase(firebaseApp)
+export const database = getFirestore(firebaseApp)
