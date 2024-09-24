@@ -9,8 +9,8 @@ router.post("/", async (req, res) => {
         const { data } = req.body;
 
         // Validate incoming data
-        if (!data || !data.message) {
-            return res.status(400).json({ message: 'Invalid data format. Expecting { data: { message: "..." } }' });
+        if (!data ) {
+            return res.status(400).json({ message: 'Invalid data format }' });
         }
 
         // creating collection refercence
