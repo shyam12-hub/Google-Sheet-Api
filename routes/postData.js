@@ -8,10 +8,7 @@ router.post("/", async (req, res) => {
     try {
         const { data } = req.body;
 
-        // Validate incoming data
-        if (!data ) {
-            return res.status(400).json({ message: 'Invalid data format }' });
-        }
+       
 
         // creating collection refercence
         const collectionRef = collection(database,"sheet-data");
