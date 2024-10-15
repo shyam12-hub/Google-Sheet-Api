@@ -7,7 +7,7 @@ import postTrueGrowth from "./routes/postTrueGrowth.js"
 import getTrueGrowthData from "./routes/getTrueGrowthData.js"
 import express from "express";
 import cors from "cors";
-
+import removeDuplicate from "./routes/removeDuplicate.js"
 dotenv.config({
   path: "./env"
 });
@@ -29,6 +29,7 @@ app.use("/updateData", updateData);
 app.use("/deleteData", deleteData);
 app.use('/postTrueGrowth',postTrueGrowth)
 app.use("/getTrueGrowthData",getTrueGrowthData)
+app.use("/removeDuplicate",removeDuplicate)
 const PORT = process.env.PORT || 5000; // Default to 5000 if PORT is not set
 app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);

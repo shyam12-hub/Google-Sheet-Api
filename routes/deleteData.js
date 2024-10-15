@@ -1,29 +1,39 @@
 import { Router } from "express";
 import { database } from "../fireBase/database.js";
-import { doc, deleteDoc } from "firebase/firestore"; 
-import { findId } from "../helper/findID.js";
+import { doc, deleteDoc, query, where, getDocs, collection } from "firebase/firestore"; 
 
 const router = Router();
 
 router.delete("/", async (req, res) => {
-    try {
-        const { id } = req.body;
+  try {
+    const { date } = req.body;
 
-        // Await the result of findId
-        const exists = await findId(id);
-        
-        if (exists) {
-            const docToDelete = doc(database, "sheet-data", id);
-            await deleteDoc(docToDelete);
-            console.log("Data deleted successfully");
-            return res.status(200).json({ message: "Data deleted successfully" });
-        } else {
-            return res.status(404).json({ message: "Document not found" });
-        }
-    } catch (e) {
-        console.log(`Could not delete data: ${e.message}`);
-        return res.status(500).json({ message: "Could not delete data", error: e.message });
+    // Reference to the Firestore collection
+    const collectionRef = collection(database, "true-growth-data");
+
+    // Query documents where the date matches
+    const q = query(collectionRef, where("date", "==", `${date}`));
+    
+    // Fetch the matching documents
+    const querySnapshot = await getDocs(q);
+
+    // Check if any documents were found
+    if (querySnapshot.empty) {
+      return res.json({ message: "Document not found" });
     }
+
+    // Delete each document found
+    querySnapshot.forEach(async (docSnapshot) => {
+      await deleteDoc(doc(database, "true-growth-data", docSnapshot.id));
+      console.log(`Deleted document with ID: ${docSnapshot.id}`);
+    });
+
+    return res.json({ message: "Document(s) deleted successfully" });
+
+  } catch (e) {
+    console.error(`Could not delete data: ${e.message}`);
+    return res.status(500).json({ message: "Could not delete data", error: e.message });
+  }
 });
 
 export default router;
